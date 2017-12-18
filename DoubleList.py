@@ -2,7 +2,7 @@
 # Made by Lander De Roeck on 13/11/17
 #
 
-from Node import doubleNode as Node
+from DoubleNode import doubleNode as Node
 
 class DoubleList(object):
     def __init__(self):
