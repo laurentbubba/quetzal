@@ -1,6 +1,6 @@
 class Marshmallow:
-    def __init__(self, price, expiredate):
-        self.price = price
+    def __init__(self, expiredate):
+        self.price = 0.75
         self.expiredate = expiredate
 
     def __del__(self):

@@ -10,17 +10,13 @@ class CircularLinkedList:
         True
         >>> head.getNext() == head
         True
-        >>> CircularLinkedList().list == []
-        True
         """
         self.head = Node(None, None)
         self.head.setNext(self.head)
-        self.list = []
 
     def __del__(self):
         self.head = Node(None, None)
         self.head.setNext(self.head)
-        self.list = []
 
     def isEmpty(self):
         """

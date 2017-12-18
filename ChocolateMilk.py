@@ -1,7 +1,7 @@
 class ChocolateMilk:
-    def __init__(self, id, price):
+    def __init__(self, id):
         self.id = id
-        self.price = price
+        self.price = 2
         self.ingredients = None
 
     def __del__(self):

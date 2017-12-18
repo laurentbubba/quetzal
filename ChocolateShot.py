@@ -1,7 +1,7 @@
 class ChocolateShot:
-    def __init__(self, type, price, expiredate):
+    def __init__(self, type, expiredate):
         self.type = type
-        self.price = price
+        self.price = 1
         self.expiredate = expiredate
 
     def __del__(self):
