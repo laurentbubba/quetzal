@@ -303,6 +303,7 @@ class TwoThreeFourTree:
                 if self.right is not None:
                     current = self.right
         if current.root.getLength() == 1 and self.parent is not None:   #Adjust if current is 2-node
+            #if current.left is not None or current.leftmid is not None or current.rightmid is not None or current.right is not None:
             current.__adjust()
         while current.left is not None: #Keep going left and adjust along the way
             while current.root.getLength() != 1 or self.parent is None:
@@ -310,14 +311,25 @@ class TwoThreeFourTree:
                     current = current.left
                 else:
                     break
+            #if current.left is not None or current.leftmid is not None or current.rightmid is not None or current.right is not None:
             current.__adjust()
         io = current.root.retrieve(0)[0]    #Return the inorder successor
         current.root.delete(0)
+        if current.root.getLength() == 0:
+            if current == current.parent.left:
+                current.parent.left = None
+            elif current == current.parent.leftmid:
+                current.parent.leftmid = None
+            elif current == current.parent.rightmid:
+                current.parent.rightmid = None
+            elif current == current.parent.right:
+                current.parent.right = None
         return io
 
     def __adjust(self): #Gets siblings with excess, redistributes if there are siblings with excess, fuses if there are none
         siblingwithexcess = self.__getSiblingWithExcess()
         if siblingwithexcess is not None:
+            print(siblingwithexcess.root.retrieve(0)[0].getKey())
             self.__redistribute(siblingwithexcess)
         else:
             self.__fuse()
@@ -377,6 +389,27 @@ class TwoThreeFourTree:
                 self.parent.root.delete(0)
                 self.parent.root.insert(0, siblingwithexcess.root.retrieve(0)[0])
                 siblingwithexcess.root.delete(0)
+                self.leftmid = self.right
+                self.right = siblingwithexcess.left
+                if siblingwithexcess.rightmid is not None:
+                    siblingwithexcess.leftmid = siblingwithexcess.rightmid
+                    siblingwithexcess.rightmid = None
+                else:
+                    siblingwithexcess.left = siblingwithexcess.leftmid
+                    siblingwithexcess.leftmid = None
+            elif self == self.parent.right:
+                self.root.insert(0, self.parent.root.retrieve(0)[0])
+                self.parent.root.delete(0)
+                self.parent.root.insert(0, siblingwithexcess.root.retrieve(siblingwithexcess.root.getLength() - 1)[0])
+                siblingwithexcess.root.delete(siblingwithexcess.root.getLength() - 1)
+                self.leftmid = self.left
+                self.left = siblingwithexcess.right
+                if siblingwithexcess.rightmid is not None:
+                    siblingwithexcess.right = siblingwithexcess.rightmid
+                    siblingwithexcess.rightmid = None
+                else:
+                    siblingwithexcess.right = siblingwithexcess.leftmid
+                    siblingwithexcess.leftmid = None
         if self.parent.root.getLength() == 2:   #3-node
             if self == self.parent.left:    #Node is left
                 self.root.insert(1, self.parent.root.retrieve(0)[0])
